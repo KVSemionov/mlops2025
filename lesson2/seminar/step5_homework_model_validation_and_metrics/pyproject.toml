@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "lesson2-homework"
+version = "0.1.0"
+description = "Homework for lesson 2"
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+pandas = "~2.2"
+scikit-learn = "~1.5"
+dvc = "~3.50"
+great-expectations = "~0.18"
+pyyaml = "~6.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.0"
+black = "^24.4.0"
+ruff = "^0.4.0"
+isort = "^5.13.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

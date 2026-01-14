@@ -1,50 +1,24 @@
-# Homework: Model Validation and Metrics
+# Step 4: Data Validation with Great Expectations
 
-Базовый репозиторий: https://github.com/tam2511/mlops2025/tree/lesson1/lesson2/seminar/step4_ge_validation_data
+ML pipeline with data validation using Great Expectations and Data Docs.
 
-## Задачи
-
-### 1. Poetry и Pre-commit
-
-Интегрируйте Poetry для управления зависимостями и настройте pre-commit хуки.
-
-Включите в `.pre-commit-config.yaml`:
-- black
-- ruff
-- isort
-- end-of-file-fixer
-- check-yaml
-
-### 2. Обновление `src/evaluate.py`
-
-Модифицируйте скрипт для записи метрик в `metrics/metrics.json`.
-
-Метрики:
-- accuracy
-- количество строк в данных
-
-### 3. Реализация `src/validate_model.py`
-
-Создайте скрипт для проверки качества модели:
-- Читает модель и данные
-- Получает accuracy (пересчитывает или читает из `metrics/metrics.json`)
-- Сравнивает с порогом `accuracy_min` из `params.yaml`
-- Завершается с кодом != 0 при `accuracy < accuracy_min`
-
-### 4. Обновление `dvc.yaml`
-
-Модифицируйте стадии:
-
-**evaluate**:
-```yaml
-metrics:
-  - metrics/metrics.json
+## Setup
+```bash
+make install
+dvc init
+dvc remote add -d local ../../.dvcstore
 ```
 
-**validate_model** (новая стадия после evaluate):
-```yaml
-deps:
-  - src/validate_model.py
-  - models/model.pkl
-  - params.yaml
+## Run
+```bash
+dvc repro
 ```
+
+Pipeline includes data validation step that:
+- Checks for null values in total_bill, tip, size
+- Validates total_bill range [0, 100]
+- Validates size range [1, 10]
+- Generates beautiful HTML validation report at `reports/validation/index.html`
+- Stops pipeline if validation fails
+
+Open `reports/validation/index.html` in browser to see detailed validation report with styled results and statistics.
